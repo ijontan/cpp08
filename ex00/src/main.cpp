@@ -79,19 +79,4 @@ int main(void)
 			cerr << e.what() << endl;
 		}
 	}
-
-	cout <<"\nmap string string example: " << endl;
-	{
-		map<string, string> map;
-		map.insert(std::make_pair("1", "2"));
-		map.insert(std::make_pair("2", "3"));
-		map.insert(std::make_pair("3", "4"));
-		map.insert(std::make_pair("4", "5"));
-		map.insert(std::make_pair("5", "1"));
-
-		std::pair<string, string> pair = std::make_pair("1", "2");
-		string s1("1");
-		::map<string, string>::iterator it = easyfind(map, s1);
-
-	}
 }
