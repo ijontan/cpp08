@@ -1,11 +1,17 @@
 #include "Span.hpp"
+#include <algorithm>
+#include <climits>
+#include <cstdlib>
+#include <iostream>
+#include <ostream>
 #include <set>
 
 /***********************************
  * Constructors
  ***********************************/
 
-Span::Span(unsigned int max) : _max_size(max)
+Span::Span(unsigned int max)
+	: _max_size(max), _size(0), _current_shortest(INT_MAX), _current_longest(0)
 {
 }
 
@@ -34,28 +40,52 @@ Span::~Span(void)
 
 void Span::addNumber(int num)
 {
+	if (_size >= _max_size)
+		throw Err();
 	std::set<int>::iterator it = _set.find(num);
 	if (it != _set.end())
 	{
 		_set.insert(num);
+		_size++;
 		return;
 	}
 	_set.insert(num);
+	_size++;
 	it = _set.find(num);
 	if (it != _set.begin())
 	{
-		int previous = *(--it);
-		if (previous - *it < _current_shortest)
-			_current_shortest = previous - *it;
+		int current = *it--;
+		int prev = *it;
+		int diff = current - prev;
+		if (diff < _current_shortest)
+			_current_shortest = diff;
 	}
 	if (it != --_set.end())
 	{
-		int next = *(++it);
-		if (next - *it < _current_shortest)
-			_current_shortest = next - *it;
+		int current = *it++;
+		int next = *it;
+		int diff = next - current;
+		if (diff < _current_shortest)
+			_current_shortest = diff;
 	}
 	if (it == _set.begin() || it == (--_set.end()))
-		_current_longest = *_set.end() - *_set.begin();
+		_current_longest = *(--_set.end()) - *_set.begin();
+}
+
+void Span::addNRand(int n, int min, int max, bool shouldPrint)
+{
+	if (min > max)
+		throw Err();
+	int size = max - min + 1;
+	for (int i = 0; i < n; i++)
+	{
+		int r = (long)rand() * size / RAND_MAX + min;
+		addNumber(r);
+		if (shouldPrint)
+			std::cout << r << " ";
+	}
+	if (shouldPrint)
+		std::cout << std::endl;
 }
 
 int Span::shortestSpan(void)

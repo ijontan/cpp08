@@ -1,5 +1,6 @@
 #pragma once
 
+#include <exception>
 #include <set>
 class Span
 {
@@ -9,8 +10,17 @@ public:
 	Span(const Span &src);
 	Span &operator=(const Span &rhs);
 	void addNumber(int num);
-	int  shortestSpan(void);
-	int  longestSpan(void);
+	void addNRand(int n, int min, int max, bool shouldPrint);
+	int shortestSpan(void);
+	int longestSpan(void);
+
+	class Err : std::exception
+	{
+		const char *what() const throw()
+		{
+			return "error";
+		}
+	};
 
 private:
 	unsigned int _max_size;
