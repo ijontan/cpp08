@@ -30,8 +30,8 @@ int main()
 		std::cout << sp.longestSpan() << std::endl;
 	}
 	{
-		Span sp = Span(1000000);
-		sp.addNRand(1000000, 1, 100000000, false);
+		Span sp = Span(10000000);
+		sp.addNRand(10000000, 1, 500, false);
 		std::cout << sp.shortestSpan() << std::endl;
 		std::cout << sp.longestSpan() << std::endl;
 	}

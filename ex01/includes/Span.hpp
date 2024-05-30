@@ -1,6 +1,7 @@
 #pragma once
 
 #include <exception>
+#include <iterator>
 #include <set>
 class Span
 {
@@ -10,6 +11,12 @@ public:
 	Span(const Span &src);
 	Span &operator=(const Span &rhs);
 	void addNumber(int num);
+	template <class T>
+	void addRange(typename T::iterator start, typename T::iterator end){
+		typename T::iterator it;
+		for (it = start; it != end; it++)
+			addNumber(*it);
+	}
 	void addNRand(int n, int min, int max, bool shouldPrint);
 	int shortestSpan(void);
 	int longestSpan(void);

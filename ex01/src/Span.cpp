@@ -3,8 +3,10 @@
 #include <climits>
 #include <cstdlib>
 #include <iostream>
+#include <iterator>
 #include <ostream>
 #include <set>
+#include <utility>
 
 /***********************************
  * Constructors
@@ -42,16 +44,15 @@ void Span::addNumber(int num)
 {
 	if (_size >= _max_size)
 		throw Err();
-	std::set<int>::iterator it = _set.find(num);
-	if (it != _set.end())
+	std::pair<std::set<int>::iterator, bool> pair = _set.insert(num);
+	_size++;
+	if (!pair.second)
 	{
-		_set.insert(num);
-		_size++;
+		_current_shortest = 0;
 		return;
 	}
-	_set.insert(num);
-	_size++;
-	it = _set.find(num);
+
+	std::set<int>::iterator it = pair.first;
 	if (it != _set.begin())
 	{
 		int current = *it--;
